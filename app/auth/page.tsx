@@ -1,0 +1,25 @@
+"use client";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+const AuthPage = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const code = searchParams.get("code");
+
+  useEffect(() => {
+    const url = window.location.origin + "/api/auth/success?code=" + code;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        if ("access_token" in data) {
+          localStorage.setItem("ghToken", data["access_token"]);
+          router.push("/");
+        }
+      });
+  }, [code]);
+
+  return <div>Successfully logged in... Redirecting...</div>;
+};
+
+export default AuthPage;
