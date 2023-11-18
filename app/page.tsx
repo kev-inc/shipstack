@@ -2,6 +2,129 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import moment from "moment";
+
+const query = {
+  query: `
+    query {
+      pending: search(type:ISSUE, first: 5, query: "is:pr archived:false is:open review:required") {
+        issueCount
+        nodes {
+          ... on PullRequest {
+            url
+            number
+            title
+            updatedAt
+            reviewDecision
+            additions
+            deletions
+            author {
+              login
+              avatarUrl
+              url
+            }
+            repository {
+              name
+              url
+              owner {
+                login
+              }
+            }
+            reviewRequests(first: 20) {
+              nodes {
+                requestedReviewer {
+                  ... on Team {
+                    name
+                  }
+                  ... on User {
+                    login
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      approved: search(type:ISSUE, first: 5, query: "is:pr archived:false is:open review:approved") {
+        issueCount
+        nodes {
+          ... on PullRequest {
+            url
+            number
+            title
+            updatedAt
+            reviewDecision
+            additions
+            deletions
+            author {
+              login
+              avatarUrl
+              url
+            }
+            repository {
+              name
+              url
+              owner {
+                login
+              }
+            }
+            reviewRequests(first: 20) {
+              nodes {
+                requestedReviewer {
+                  ... on Team {
+                    name
+                  }
+                  ... on User {
+                    login
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      changes_requested: search(type:ISSUE, first: 5, query: "is:pr archived:false is:open review:changes_requested") {
+        issueCount
+        nodes {
+          ... on PullRequest {
+            url
+            number
+            title
+            updatedAt
+            reviewDecision
+            additions
+            deletions
+            author {
+              login
+              avatarUrl
+              url
+            }
+            repository {
+              name
+              url
+              owner {
+                login
+              }
+            }
+            reviewRequests(first: 20) {
+              nodes {
+                requestedReviewer {
+                  ... on Team {
+                    name
+                  }
+                  ... on User {
+                    login
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `,
+};
 
 type User = {
   login: string;
@@ -18,8 +141,14 @@ type PullRequest = {
   title: string;
   author: User;
   number: number;
+  additions: number;
+  deletions: number;
   repository: Repo;
   reviewDecision: string;
+  updatedAt: string;
+  reviewRequests: {
+    nodes: { requestedReviewer: User }[];
+  };
 };
 
 const PullCardLoader = () => (
@@ -87,6 +216,17 @@ const PullCard = ({ pull }: { pull: PullRequest }) => {
               {pull.repository.owner.login}/{pull.repository.name}
             </Link>
           </span>
+          <span>•</span>
+          <span className="text-green-700">+{pull.additions} </span>
+          <span className="text-red-700">-{pull.deletions}</span>
+          <span>•</span>
+          <span>{moment(pull.updatedAt).fromNow()}</span>
+          {/* <span>•</span>
+          <span>
+            {pull.reviewRequests.nodes
+              .map((n) => n.requestedReviewer.login)
+              .join(",")}
+          </span> */}
         </div>
       </div>
       <div className="flex items-center">{status(pull.reviewDecision)}</div>
@@ -95,7 +235,8 @@ const PullCard = ({ pull }: { pull: PullRequest }) => {
 };
 
 export default function Home() {
-  // const [pulls, setPulls] = useState<PullRequest[]>([]);
+  const graphqlUrl = "https://api.github.com/graphql";
+
   const [pending, setPending] = useState<PullRequest[]>([]);
   const [approved, setApproved] = useState<PullRequest[]>([]);
   const [changes, setChanges] = useState<PullRequest[]>([]);
@@ -108,40 +249,18 @@ export default function Home() {
       return;
     }
     setIsLoading(true);
-    const promises = [
-      fetch(
-        window.location.origin +
-          "/api/pulls?q=is:pr archived:false is:open review:required",
-        {
-          headers: {
-            ghToken: ghToken,
-          },
-        },
-      ).then((resp) => resp.json()),
-      fetch(
-        window.location.origin +
-          "/api/pulls?q=is:pr archived:false is:open review:approved",
-        {
-          headers: {
-            ghToken: ghToken,
-          },
-        },
-      ).then((resp) => resp.json()),
-      fetch(
-        window.location.origin +
-          "/api/pulls?q=is:pr archived:false is:open review:changes_requested",
-        {
-          headers: {
-            ghToken: ghToken,
-          },
-        },
-      ).then((resp) => resp.json()),
-    ];
-    Promise.all(promises)
-      .then(([pendingPromise, approvedPromise, changesPromise]) => {
-        setPending(pendingPromise.nodes);
-        setApproved(approvedPromise.nodes);
-        setChanges(changesPromise.nodes);
+    fetch(graphqlUrl, {
+      method: "POST",
+      body: JSON.stringify(query),
+      headers: {
+        Authorization: `Bearer ${ghToken}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setPending(res.data.pending.nodes);
+        setApproved(res.data.approved.nodes);
+        setChanges(res.data.changes_requested.nodes);
         setIsLoading(false);
       })
       .catch(() => setIsLoading(false));

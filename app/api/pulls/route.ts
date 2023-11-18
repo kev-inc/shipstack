@@ -44,13 +44,6 @@ export async function GET(req: Request) {
       }
     `,
   };
-  const searchStr = "";
-
-  //   const { data } = await axios.post(graphqlUrl, JSON.stringify(query), {
-  //     headers: {
-  //       Authorization: `Bearer ${ghToken}`,
-  //     },
-  //   });
   const data = await fetch(graphqlUrl, {
     method: "POST",
     body: JSON.stringify(query),
