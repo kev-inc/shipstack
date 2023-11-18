@@ -179,33 +179,29 @@ export default function Home() {
 
   const query = {
     query: `
-    query {
-      ${
-        viewer
-          ? `mine: ${genSearchQuery(
-              `is:pr archived:false is:open sort:updated-desc ${
-                viewer && `author:${viewer}`
-              }`,
-            )}`
-          : ""
+      query {
+        mine: ${genSearchQuery(
+          `is:pr archived:false is:open sort:updated-desc author:${
+            viewer || "@me"
+          }`,
+        )}
+        pending: ${genSearchQuery(
+          `is:pr archived:false is:open draft:false sort:updated-desc review-requested:${
+            viewer || "@me"
+          }`,
+        )}
+        approved: ${genSearchQuery(
+          `is:pr archived:false is:open review:approved draft:false sort:updated-desc author:${
+            viewer || "@me"
+          }`,
+        )}
+        changes_requested: ${genSearchQuery(
+          `is:pr archived:false is:open review:changes_requested draft:false sort:updated-desc author:${
+            viewer || "@me"
+          }`,
+        )}
       }
-      pending: ${genSearchQuery(
-        `is:pr archived:false is:open draft:false sort:updated-desc ${
-          viewer && `review-requested:${viewer}`
-        }`,
-      )}
-      approved: ${genSearchQuery(
-        `is:pr archived:false is:open review:approved draft:false sort:updated-desc ${
-          viewer && `author:${viewer}`
-        }`,
-      )}
-      changes_requested: ${genSearchQuery(
-        `is:pr archived:false is:open review:changes_requested draft:false sort:updated-desc ${
-          viewer && `author:${viewer}`
-        }`,
-      )}
-    }
-  `,
+    `,
   };
 
   useEffect(() => {
@@ -224,9 +220,7 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((res) => {
-        if (viewer) {
-          setMine(res.data.mine.nodes);
-        }
+        setMine(res.data.mine.nodes);
         setPending(res.data.pending.nodes);
         setApproved(res.data.approved.nodes);
         setChanges(res.data.changes_requested.nodes);
@@ -239,27 +233,25 @@ export default function Home() {
       <div className="flex p-4 bg-slate-100 text-gray-700 border-b font-semibold">
         ShipStack
       </div>
-      {viewer && (
-        <div className=" m-4 border rounded">
-          <div className="px-4 py-2 font-medium bg-slate-50 text-gray-900">
-            My Pull Requests ({mine.length})
-          </div>
-
-          {mine.length > 0 ? (
-            mine.map((pull, index) => <PullCard key={index} pull={pull} />)
-          ) : isLoading ? (
-            <div>
-              <PullCardLoader />
-              <PullCardLoader />
-              <PullCardLoader />
-            </div>
-          ) : (
-            <div className="flex p-4 text-xs justify-center text-gray-500">
-              No results found
-            </div>
-          )}
+      <div className=" m-4 border rounded">
+        <div className="px-4 py-2 font-medium bg-slate-50 text-gray-900">
+          My Pull Requests ({mine.length})
         </div>
-      )}
+
+        {mine.length > 0 ? (
+          mine.map((pull, index) => <PullCard key={index} pull={pull} />)
+        ) : isLoading ? (
+          <div>
+            <PullCardLoader />
+            <PullCardLoader />
+            <PullCardLoader />
+          </div>
+        ) : (
+          <div className="flex p-4 text-xs justify-center text-gray-500">
+            No results found
+          </div>
+        )}
+      </div>
 
       <div className=" m-4 border rounded">
         <div className="px-4 py-2 font-medium bg-slate-50 text-gray-900">
