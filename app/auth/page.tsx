@@ -2,9 +2,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 const AuthPage = () => {
-  const searchParams = useSearchParams();
   const router = useRouter();
-
+  const searchParams = useSearchParams();
   const code = searchParams.get("code");
 
   useEffect(() => {

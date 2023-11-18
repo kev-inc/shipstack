@@ -3,128 +3,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import moment from "moment";
-
-const query = {
-  query: `
-    query {
-      pending: search(type:ISSUE, first: 5, query: "is:pr archived:false is:open review:required") {
-        issueCount
-        nodes {
-          ... on PullRequest {
-            url
-            number
-            title
-            updatedAt
-            reviewDecision
-            additions
-            deletions
-            author {
-              login
-              avatarUrl
-              url
-            }
-            repository {
-              name
-              url
-              owner {
-                login
-              }
-            }
-            reviewRequests(first: 20) {
-              nodes {
-                requestedReviewer {
-                  ... on Team {
-                    name
-                  }
-                  ... on User {
-                    login
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-
-      approved: search(type:ISSUE, first: 5, query: "is:pr archived:false is:open review:approved") {
-        issueCount
-        nodes {
-          ... on PullRequest {
-            url
-            number
-            title
-            updatedAt
-            reviewDecision
-            additions
-            deletions
-            author {
-              login
-              avatarUrl
-              url
-            }
-            repository {
-              name
-              url
-              owner {
-                login
-              }
-            }
-            reviewRequests(first: 20) {
-              nodes {
-                requestedReviewer {
-                  ... on Team {
-                    name
-                  }
-                  ... on User {
-                    login
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      changes_requested: search(type:ISSUE, first: 5, query: "is:pr archived:false is:open review:changes_requested") {
-        issueCount
-        nodes {
-          ... on PullRequest {
-            url
-            number
-            title
-            updatedAt
-            reviewDecision
-            additions
-            deletions
-            author {
-              login
-              avatarUrl
-              url
-            }
-            repository {
-              name
-              url
-              owner {
-                login
-              }
-            }
-            reviewRequests(first: 20) {
-              nodes {
-                requestedReviewer {
-                  ... on Team {
-                    name
-                  }
-                  ... on User {
-                    login
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `,
-};
+import { genSearchQuery } from "./graphql/search";
+import { useSearchParams } from "next/navigation";
 
 type User = {
   login: string;
@@ -146,6 +26,7 @@ type PullRequest = {
   repository: Repo;
   reviewDecision: string;
   updatedAt: string;
+  isDraft: string;
   reviewRequests: {
     nodes: { requestedReviewer: User }[];
   };
@@ -229,18 +110,54 @@ const PullCard = ({ pull }: { pull: PullRequest }) => {
           </span> */}
         </div>
       </div>
-      <div className="flex items-center">{status(pull.reviewDecision)}</div>
+      <div className="flex items-center">
+        {pull.isDraft ? (
+          <span className="bg-gray-100 text-gray-500 rounded px-2 py-1 text-xs">
+            Draft
+          </span>
+        ) : (
+          status(pull.reviewDecision)
+        )}
+      </div>
     </div>
   );
 };
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const viewer = searchParams.get("viewer");
   const graphqlUrl = "https://api.github.com/graphql";
 
+  const [mine, setMine] = useState<PullRequest[]>([]);
   const [pending, setPending] = useState<PullRequest[]>([]);
   const [approved, setApproved] = useState<PullRequest[]>([]);
   const [changes, setChanges] = useState<PullRequest[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const query = {
+    query: `
+    query {
+      mine: ${genSearchQuery(
+        `is:pr archived:false is:open ${viewer && "author:" + viewer}`,
+      )}
+      pending: ${genSearchQuery(
+        `is:pr archived:false is:open review:required ${
+          viewer && "review-required:" + viewer
+        }`,
+      )}
+      approved: ${genSearchQuery(
+        `is:pr archived:false is:open review:approved ${
+          viewer && "author:" + viewer
+        }`,
+      )}
+      changes_requested: ${genSearchQuery(
+        `is:pr archived:false is:open review:changes_requested ${
+          viewer && "author:" + viewer
+        }`,
+      )}
+    }
+  `,
+  };
 
   useEffect(() => {
     const ghToken = localStorage.getItem("ghToken");
@@ -258,6 +175,7 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((res) => {
+        setMine(res.data.mine.nodes);
         setPending(res.data.pending.nodes);
         setApproved(res.data.approved.nodes);
         setChanges(res.data.changes_requested.nodes);
@@ -270,9 +188,29 @@ export default function Home() {
       <div className="flex p-4 bg-slate-100 text-gray-700 border-b font-semibold">
         ShipStack
       </div>
+
       <div className=" m-4 border rounded">
         <div className="px-4 py-2 font-medium bg-slate-50 text-gray-900">
-          Pending Review
+          My Pull Requests ({mine.length})
+        </div>
+
+        {mine.length > 0 ? (
+          mine.map((pull, index) => <PullCard key={index} pull={pull} />)
+        ) : isLoading ? (
+          <div>
+            <PullCardLoader />
+            <PullCardLoader />
+            <PullCardLoader />
+          </div>
+        ) : (
+          <div className="flex p-4 text-xs justify-center text-gray-500">
+            No results found
+          </div>
+        )}
+      </div>
+      <div className=" m-4 border rounded">
+        <div className="px-4 py-2 font-medium bg-slate-50 text-gray-900">
+          Pending Review ({pending.length})
         </div>
 
         {pending.length > 0 ? (
@@ -292,7 +230,7 @@ export default function Home() {
 
       <div className=" m-4 border rounded">
         <div className="px-4 py-2 font-medium bg-slate-50 text-gray-900">
-          Changes Requested
+          Changes Requested ({changes.length})
         </div>
 
         {changes.length > 0 ? (
@@ -312,7 +250,7 @@ export default function Home() {
 
       <div className=" m-4 border rounded">
         <div className="px-4 py-2 font-medium bg-slate-50 text-gray-900">
-          Ready to ship
+          Ready to ship ({approved.length})
         </div>
 
         {approved.length > 0 ? (
