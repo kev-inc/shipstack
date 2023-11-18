@@ -145,8 +145,8 @@ export default function Home() {
           : ""
       }
       pending: ${genSearchQuery(
-        `is:pr archived:false is:open review:required draft:false ${
-          viewer && `review-required:${viewer}`
+        `is:pr archived:false is:open draft:false ${
+          viewer && `review-requested:${viewer}`
         }`,
       )}
       approved: ${genSearchQuery(
