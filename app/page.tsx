@@ -100,8 +100,13 @@ export default function Home() {
   const [approved, setApproved] = useState<PullRequest[]>([]);
   const [changes, setChanges] = useState<PullRequest[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const ghToken = localStorage.getItem("ghToken") || "";
+
   useEffect(() => {
+    const ghToken = localStorage.getItem("ghToken");
+    if (ghToken == null) {
+      window.location.href = "/api/auth";
+      return;
+    }
     setIsLoading(true);
     const promises = [
       fetch(
