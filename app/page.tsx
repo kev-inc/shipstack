@@ -30,6 +30,15 @@ type PullRequest = {
   reviewRequests: {
     nodes: { requestedReviewer: User }[];
   };
+  commits: {
+    nodes: { commit: Commit }[];
+  };
+};
+
+type Commit = {
+  statusCheckRollup: {
+    state: string;
+  };
 };
 
 const PullCardLoader = () => (
@@ -66,18 +75,44 @@ const PullCard = ({ pull }: { pull: PullRequest }) => {
         );
       case "REVIEW_REQUIRED":
         return (
-          <span className="bg-blue-100 text-blue-500 rounded px-2 py-1 text-xs">
+          <span className="bg-yellow-100 text-yellow-500 rounded px-2 py-1 text-xs">
             Review Required
           </span>
         );
+      default:
+        return (
+          <span className="bg-blue-100 text-blue-500 rounded px-2 py-1 text-xs">
+            Open
+          </span>
+        );
+    }
+  };
+  const renderBuildStatus = (status) => {
+    switch (status) {
+      case "PENDING":
+        return <span>🟡</span>;
+      case "SUCCESS":
+        return <span>🟢</span>;
+      case "FAILURE":
+        return <span>🔴</span>;
     }
   };
   return (
     <div className="px-4 py-2 border-t text-sm flex">
       <div className="flex-1">
-        <Link href={pull.url} className="hover:underline">
-          #{pull.number}: {pull.title}
-        </Link>
+        <div className="flex">
+          <Link
+            href={pull.url}
+            className="hover:underline mr-1"
+            target="_blank"
+          >
+            #{pull.number}: {pull.title}{" "}
+          </Link>
+          {renderBuildStatus(
+            pull.commits.nodes[0].commit.statusCheckRollup?.state,
+          )}
+        </div>
+
         <div className="flex items-center text-xs text-gray-500 gap-x-1">
           <Image
             src={pull.author.avatarUrl}
@@ -87,13 +122,21 @@ const PullCard = ({ pull }: { pull: PullRequest }) => {
             style={{ borderRadius: "50%" }}
           />
           <span>
-            <Link href={pull.author.url} className="hover:underline">
+            <Link
+              href={pull.author.url}
+              className="hover:underline"
+              target="_blank"
+            >
               {pull.author.login}
             </Link>
           </span>
           <span>•</span>
           <span>
-            <Link href={pull.repository.url} className="hover:underline">
+            <Link
+              href={pull.repository.url}
+              className="hover:underline"
+              target="_blank"
+            >
               {pull.repository.owner.login}/{pull.repository.name}
             </Link>
           </span>
@@ -140,22 +183,24 @@ export default function Home() {
       ${
         viewer
           ? `mine: ${genSearchQuery(
-              `is:pr archived:false is:open ${viewer && `author:${viewer}`}`,
+              `is:pr archived:false is:open sort:updated-desc ${
+                viewer && `author:${viewer}`
+              }`,
             )}`
           : ""
       }
       pending: ${genSearchQuery(
-        `is:pr archived:false is:open draft:false ${
+        `is:pr archived:false is:open draft:false sort:updated-desc ${
           viewer && `review-requested:${viewer}`
         }`,
       )}
       approved: ${genSearchQuery(
-        `is:pr archived:false is:open review:approved draft:false ${
+        `is:pr archived:false is:open review:approved draft:false sort:updated-desc ${
           viewer && `author:${viewer}`
         }`,
       )}
       changes_requested: ${genSearchQuery(
-        `is:pr archived:false is:open review:changes_requested draft:false ${
+        `is:pr archived:false is:open review:changes_requested draft:false sort:updated-desc ${
           viewer && `author:${viewer}`
         }`,
       )}

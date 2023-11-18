@@ -35,6 +35,15 @@ export const genSearchQuery = (query: string, first: number = 20) => {
                 }
               }
             }
+            commits(last: 1) {
+              nodes{
+                commit {
+                  statusCheckRollup {
+                    state
+                  }
+                }
+              }
+            }
           }
         }
       }
