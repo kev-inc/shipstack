@@ -87,7 +87,7 @@ const PullCard = ({ pull }: { pull: PullRequest }) => {
         );
     }
   };
-  const renderBuildStatus = (status) => {
+  const renderBuildStatus = (status: string) => {
     switch (status) {
       case "PENDING":
         return <span>🟡</span>;
