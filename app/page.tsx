@@ -133,8 +133,8 @@ export default function Home() {
           {queryString ? (
             <PRSection title={`Results for '${queryString}'`} prs={searchResults} isLoading={isLoading} />
           ) : (
-            categories.map(category => (
-              <PRSection title={category.title} prs={category.prs} isLoading={isLoading} />
+            categories.map((category, index) => (
+              <PRSection key={index} title={category.title} prs={category.prs} isLoading={isLoading} />
             ))
           )}
 
