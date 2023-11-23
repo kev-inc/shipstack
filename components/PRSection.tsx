@@ -10,9 +10,9 @@ type PRSectionProps = {
 
 const PRSection = ({ title, prs, isLoading }: PRSectionProps) => {
   return (
-    <div id={title} className=" m-4 border rounded">
+    <div id={title} className=" m-4 border rounded overflow-hidden">
       <div className="px-4 py-2 font-medium bg-slate-50 text-gray-900">
-        {title} ({prs.length})
+        {title} <span className='bg-slate-300 py-0.5 px-1 rounded text-xs font-semibold'>{prs.length}</span>
       </div>
 
       {prs.length > 0 ? (

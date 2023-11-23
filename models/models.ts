@@ -34,3 +34,10 @@ export type Commit = {
         state: string;
     };
 };
+
+export type Category = {
+    title: string,
+    searchQuery?: string,
+    issueCount?: number,
+    issues?: PullRequest[]
+}
