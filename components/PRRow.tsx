@@ -15,7 +15,7 @@ const PRRow = ({ pull }: PRRowProps) => {
       case "APPROVED":
         return (
           <span className="bg-green-100 text-green-500 rounded px-2 py-1 text-xs">
-            Ready to Ship
+            Approved
           </span>
         );
       case "CHANGES_REQUESTED":
@@ -49,7 +49,7 @@ const PRRow = ({ pull }: PRRowProps) => {
     }
   };
   return (
-    <div className="px-4 py-2 border-t text-sm flex">
+    <div className="px-4 py-2 text-sm flex">
       <div className="flex-1">
         <div className='lg:hidden flex items-center text-xs text-gray-500 gap-x-1'>
           <Image

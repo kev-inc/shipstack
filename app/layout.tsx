@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar";
+import Appbar from "@/components/Appbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,11 +16,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className='bg-[#F0F2F5]'>
       <body className={inter.className}>
-        <div className="flex p-4 bg-slate-100 text-gray-700 border-b font-semibold">
-          ShipStack
-        </div>
+        <Appbar/>
         <div className='flex'>
           <div className='w-64 hidden lg:block'>
             <Sidebar />

@@ -91,7 +91,7 @@ export default function Home() {
             isLoading: false,
             categories: [
               {
-                title: "Search Results",
+                title: `Search Results for '${queryString}'`,
                 issueCount: res.data.results.issueCount,
                 issues: res.data.results.nodes
               }
@@ -104,7 +104,6 @@ export default function Home() {
 
   return (
     <div className="flex-1">
-      <SearchBar initialValue={queryString || ""} />
       {data.categories.map((category, index) => (
         <PRSection key={index} title={category.title} prs={category.issues || []} isLoading={data.isLoading} />
       ))}
