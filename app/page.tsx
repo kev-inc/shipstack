@@ -1,16 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import moment from "moment";
 import { genSearchQuery } from "./graphql/search";
 import { useSearchParams } from "next/navigation";
-import { Category, PullRequest, User } from "@/models/models";
+import { Category } from "@/models/models";
 import PRSection from "@/components/PRSection";
 import Sidebar from "@/components/Sidebar";
-import SearchBar from "@/components/SearchBar";
 import { fetchGql } from "./utils/gql";
 import { genCategoriesForViewer } from "./utils/constants";
+import Appbar from "@/components/Appbar";
+import Login from "@/components/Login";
 
 type HomeState = {
   isLoading: boolean,
@@ -38,10 +36,10 @@ export default function Home() {
     `,
   };
 
-  useEffect(() => {
-    const ghToken = localStorage.getItem("ghToken");
-    if (ghToken == null) return
+  const ghToken = localStorage.getItem("ghToken");
 
+  useEffect(() => {
+    if (ghToken == null) return
     if (queryString == null) {
       fetchGql(query, ghToken)
         .then((res) => {
@@ -102,12 +100,22 @@ export default function Home() {
     }
   }, []);
 
-  return (
-    <div className="flex-1">
-      {data.categories.map((category, index) => (
-        <PRSection key={index} title={category.title} prs={category.issues || []} isLoading={data.isLoading} />
-      ))}
+  if (ghToken == null) return <Login />
 
+  return (
+    <div>
+      <Appbar />
+      <div className='flex'>
+        <div className='w-64 hidden lg:block'>
+          <Sidebar />
+        </div>
+        <div className="flex-1">
+          {data.categories.map((category, index) => (
+            <PRSection key={index} title={category.title} prs={category.issues || []} isLoading={data.isLoading} />
+          ))}
+        </div>
+      </div>
     </div>
+
   );
 }

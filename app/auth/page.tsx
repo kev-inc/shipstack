@@ -18,7 +18,7 @@ const AuthPage = () => {
       });
   }, [code]);
 
-  return <div>Successfully logged in... Redirecting...</div>;
+  return <div>Successfully logged in, redirecting...</div>;
 };
 
 export default AuthPage;
