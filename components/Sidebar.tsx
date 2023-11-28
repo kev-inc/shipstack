@@ -6,6 +6,8 @@ import { Category, User } from "@/models/models"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import Badge from "./Badge"
+import { CheckCircleIcon, ExclaimationCircleIcon, PullRequestIcon, ReplyIcon } from "./Icons"
 
 const query = {
     query: `
@@ -82,9 +84,16 @@ const Sidebar = () => {
     if (data.user == null) {
         return <SidebarLoading />
     }
+
+    const icons = [
+        <PullRequestIcon />,
+        <ExclaimationCircleIcon />,
+        <CheckCircleIcon />,
+        <ReplyIcon />,
+    ]
     return (
-        <div className='flex flex-col gap-y-6 p-6 text-gray-500 text-md'>
-            <div className='flex items-center font-semibold gap-x-1'>
+        <div className='flex flex-col gap-y-6 p-6 font-medium text-[#050505] text-md'>
+            <div className='flex items-center gap-x-1'>
                 <Image
                     src={data.user.avatarUrl}
                     alt="avatar"
@@ -98,9 +107,10 @@ const Sidebar = () => {
             </div>
 
             {data.categories.map((category, index) => (
-                <div key={index}>
+                <div key={index} className='flex items-center gap-x-2'>
+                    {icons[index]}
                     <Link href={'#' + category.title} className='hover:underline'>
-                        {category.title} <span className='bg-slate-300 py-0.5 px-1 rounded text-xs font-semibold'>{category.issueCount}</span>
+                        {category.title} <Badge number={category.issueCount} />
                     </Link>
                 </div>
             ))}
