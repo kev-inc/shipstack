@@ -86,10 +86,10 @@ const Sidebar = () => {
     }
 
     const icons = [
-        <PullRequestIcon />,
-        <ExclaimationCircleIcon />,
-        <CheckCircleIcon />,
-        <ReplyIcon />,
+        <PullRequestIcon key={0}/>,
+        <ExclaimationCircleIcon  key={1}/>,
+        <CheckCircleIcon  key={2}/>,
+        <ReplyIcon  key={3}/>,
     ]
     return (
         <div className='flex flex-col gap-y-6 p-6 font-medium text-[#050505] text-md'>
