@@ -110,8 +110,9 @@ const Sidebar = () => {
                 <div key={index} className='flex items-center gap-x-2'>
                     {icons[index]}
                     <Link href={'#' + category.title} className='hover:underline'>
-                        {category.title} <Badge number={category.issueCount} />
+                        {category.title} 
                     </Link>
+                    <Badge number={category.issueCount} />
                 </div>
             ))}
 
