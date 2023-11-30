@@ -27,9 +27,7 @@ const Login = () => {
                     <div className="text-gray-700 font-medium tracking-wider">Welcome to</div>
                     <div className="text-7xl font-bold tracking-wide">ShipStack</div>
                     <div className="text-gray-700 font-medium tracking-wider pt-8 pb-8">The best Github dashboard that gets your pull requests to shore faster</div>
-                    <div className="animate__animated animate__bounce animate__infinite">
                     <SignInWithGithubBtn />
-                    </div>
                 </div>
             </div>
             <div className='bg-white' id="Features">
