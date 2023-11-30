@@ -1,6 +1,7 @@
 import Link from "next/link"
-import { GithubIcon } from "./Icons"
-
+import SignInWithGithubBtn from "./SignInWithGithubBtn"
+import cardPic from '../images/cards.png'
+import Image from "next/image"
 
 const Login = () => {
     return (
@@ -23,39 +24,36 @@ const Login = () => {
                 <div className="container mx-auto bg-white rounded-lg shadow flex flex-col p-4 items-center pt-40 pb-40">
                     <div className="text-gray-700 font-medium tracking-wider">Welcome to</div>
                     <div className="text-7xl font-bold tracking-wide">ShipStack</div>
-                    <div className="text-gray-700 font-medium tracking-wider pt-8 pb-8">Get your pull requests to shore faster</div>
-                    <Link href="/api/auth" className="bg-black text-white font-semibold px-4 py-2 rounded flex items-center gap-x-2">
-                        <GithubIcon />
-                        <span>Sign in with Github</span>
-                    </Link>
+                    <div className="text-gray-700 font-medium tracking-wider pt-8 pb-8">The best Github dashboard that gets your pull requests to shore faster</div>
+                    <SignInWithGithubBtn />
                 </div>
             </div>
             <div className='bg-white' id="Features">
                 <div className="container mx-auto py-20">
                     <div className="text-3xl text-center font-semibold pb-20">
-                        Unified dashboard to see all your actionable Pull Requests
+                        A unified dashboard for all your actionable Pull Requests
                     </div>
                     <div className="flex pb-8">
                         <div className="py-12 pl-20 flex flex-col gap-y-4 flex-1">
                             <div>
-                                <div className="text-2xl font-medium">My Pull Requests (slide in)</div>
-                                <div className="text-gray-500">All of your open pull requests</div>
+                                <div className="text-2xl font-medium">My Pull Requests</div>
+                                <div className="text-gray-500">All your PRs at a glance</div>
                             </div>
                             <div>
                                 <div className="text-2xl font-medium">Pending Review</div>
-                                <div className="text-gray-500">Pull Requests that are pending your review</div>
+                                <div className="text-gray-500">Unblock other developers when your review is requested</div>
                             </div>
                             <div>
                                 <div className="text-2xl font-medium">Approved</div>
-                                <div className="text-gray-500">Pull Requests that are ready to ship</div>
+                                <div className="text-gray-500">Ship your PRs the moment they are approved</div>
                             </div>
                             <div>
                                 <div className="text-2xl font-medium">Changes Requested</div>
-                                <div className="text-gray-500">Pull Requests that requires your attention after being reviewed by others</div>
+                                <div className="text-gray-500">Review comments and make changes quickly</div>
                             </div>
 
                         </div>
-                        <div className="mx-auto w-[640px] bg-gray-300 h-[360px] rounded-lg animate-pulse"></div>
+                        <Image src={cardPic} alt="cards" className='object-contain'/>
                     </div>
                 </div>
             </div>
@@ -65,7 +63,6 @@ const Login = () => {
                         Easily search for PRs
                     </div>
                     <div className="flex pb-8">
-                        <div className="mx-auto w-[640px] bg-gray-300 h-[360px] rounded-lg animate-pulse"></div>
                         <div className="flex-1 text-center align-middle h-full">
                             Using the same query language as Github (show the dynamic text)
                         </div>
@@ -78,8 +75,8 @@ const Login = () => {
                         Get Started in a single click
                     </div>
                     <div className="flex pb-8">
-                        <div className="flex-1 text-center align-middle h-full">
-                            Bounce button
+                        <div className="flex-1 h-full">
+                            <SignInWithGithubBtn />
                         </div>
                         <div className="mx-auto w-[640px] bg-gray-300 h-[360px] rounded-lg animate-pulse"></div>
                     </div>
