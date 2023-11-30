@@ -2,6 +2,8 @@ import Link from "next/link"
 import SignInWithGithubBtn from "./SignInWithGithubBtn"
 import cardPic from '../images/cards.png'
 import Image from "next/image"
+import { AnimationOnScroll } from "react-animation-on-scroll"
+import { TypeAnimation } from "react-type-animation"
 
 const Login = () => {
     return (
@@ -25,7 +27,9 @@ const Login = () => {
                     <div className="text-gray-700 font-medium tracking-wider">Welcome to</div>
                     <div className="text-7xl font-bold tracking-wide">ShipStack</div>
                     <div className="text-gray-700 font-medium tracking-wider pt-8 pb-8">The best Github dashboard that gets your pull requests to shore faster</div>
+                    <div className="animate__animated animate__bounce animate__infinite">
                     <SignInWithGithubBtn />
+                    </div>
                 </div>
             </div>
             <div className='bg-white' id="Features">
@@ -35,22 +39,22 @@ const Login = () => {
                     </div>
                     <div className="flex pb-8">
                         <div className="py-12 pl-20 flex flex-col gap-y-4 flex-1">
-                            <div>
+                            <AnimationOnScroll animateIn="animate__fadeInLeft">
                                 <div className="text-2xl font-medium">My Pull Requests</div>
                                 <div className="text-gray-500">All your PRs at a glance</div>
-                            </div>
-                            <div>
+                            </AnimationOnScroll>
+                            <AnimationOnScroll animateIn="animate__fadeInLeft">
                                 <div className="text-2xl font-medium">Pending Review</div>
                                 <div className="text-gray-500">Unblock other developers when your review is requested</div>
-                            </div>
-                            <div>
+                            </AnimationOnScroll>
+                            <AnimationOnScroll animateIn="animate__fadeInLeft">
                                 <div className="text-2xl font-medium">Approved</div>
                                 <div className="text-gray-500">Ship your PRs the moment they are approved</div>
-                            </div>
-                            <div>
+                            </AnimationOnScroll>
+                            <AnimationOnScroll animateIn="animate__fadeInLeft">
                                 <div className="text-2xl font-medium">Changes Requested</div>
                                 <div className="text-gray-500">Review comments and make changes quickly</div>
-                            </div>
+                            </AnimationOnScroll>
 
                         </div>
                         <Image src={cardPic} alt="cards" className='object-contain'/>
@@ -64,7 +68,20 @@ const Login = () => {
                     </div>
                     <div className="flex pb-8">
                         <div className="flex-1 text-center align-middle h-full">
-                            Using the same query language as Github (show the dynamic text)
+                            <TypeAnimation 
+                                sequence={[
+                                    'is:open is:pr',
+                                    1000,
+                                    'is:open is:pr archived:false',
+                                    1000,
+                                    'is:open is:pr archived:false author:@me',
+                                    1000,
+                                    'is:open is:pr archived:false review-requested:@me',
+                                    1000
+                                ]}
+                                className='font-mono text-lg'
+                                repeat={Infinity}
+                            />
                         </div>
                     </div>
                 </div>
@@ -75,7 +92,8 @@ const Login = () => {
                         Get Started in a single click
                     </div>
                     <div className="flex pb-8">
-                        <div className="flex-1 h-full">
+                        <div className="flex-1 h-max items-center flex justify-center">
+
                             <SignInWithGithubBtn />
                         </div>
                         <div className="mx-auto w-[640px] bg-gray-300 h-[360px] rounded-lg animate-pulse"></div>
