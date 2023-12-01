@@ -36,44 +36,52 @@ const Login = () => {
                         A unified dashboard for all your actionable Pull Requests
                     </div>
                     <div className="flex pb-8">
-                        <div className="py-12 pl-20 flex flex-col gap-y-4 flex-1">
-                            <AnimationOnScroll animateIn="animate__fadeInLeft">
-                                <div className="text-2xl font-medium">My Pull Requests</div>
-                                <div className="text-gray-500">All your PRs at a glance</div>
-                            </AnimationOnScroll>
-                            <AnimationOnScroll animateIn="animate__fadeInLeft">
-                                <div className="text-2xl font-medium">Pending Review</div>
-                                <div className="text-gray-500">Unblock other developers when your review is requested</div>
-                            </AnimationOnScroll>
-                            <AnimationOnScroll animateIn="animate__fadeInLeft">
-                                <div className="text-2xl font-medium">Approved</div>
-                                <div className="text-gray-500">Ship your PRs the moment they are approved</div>
-                            </AnimationOnScroll>
-                            <AnimationOnScroll animateIn="animate__fadeInLeft">
-                                <div className="text-2xl font-medium">Changes Requested</div>
-                                <div className="text-gray-500">Review comments and make changes quickly</div>
-                            </AnimationOnScroll>
+                        <div className="py-12 pl-20 flex-1">
 
+                            <AnimationOnScroll animateIn="animate__fadeInLeft">
+                                <div className="flex flex-col gap-y-4">
+                                    <div>
+                                        <div className="text-2xl font-medium">My Pull Requests</div>
+                                        <div className="text-gray-500">All your PRs at a glance</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-medium">Pending Review</div>
+                                        <div className="text-gray-500">Unblock other developers when your review is requested</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-medium">Approved</div>
+                                        <div className="text-gray-500">Ship your PRs the moment they are approved</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-medium">Changes Requested</div>
+                                        <div className="text-gray-500">Review comments and make changes quickly</div>
+                                    </div>
+
+                                </div>
+                            </AnimationOnScroll>
                         </div>
-                        <Image src={cardPic} alt="cards" className='object-contain'/>
+                        <AnimationOnScroll animateIn="animate__fadeInRight">
+                            <Image src={cardPic} alt="cards" className='object-contain' />
+                        </AnimationOnScroll>
                     </div>
                 </div>
             </div>
             <div className="">
                 <div className="container mx-auto py-20">
-                    <div className="text-3xl text-center font-semibold pb-20">
-                        Easily search for PRs
+                    <div className="text-center pb-20">
+                        <div className='text-3xl font-semibold'>Easily search for PRs</div>
+                        <div className='text-gray-500'>with Github's search query syntax</div>
                     </div>
                     <div className="flex pb-8">
                         <div className="flex-1 text-center align-middle h-full">
-                            <TypeAnimation 
+                            <TypeAnimation
                                 sequence={[
                                     'is:open is:pr',
-                                    1000,
+                                    200,
                                     'is:open is:pr archived:false',
-                                    1000,
+                                    200,
                                     'is:open is:pr archived:false author:@me',
-                                    1000,
+                                    200,
                                     'is:open is:pr archived:false review-requested:@me',
                                     1000
                                 ]}
@@ -86,15 +94,15 @@ const Login = () => {
             </div>
             <div className='bg-white' id="Getting Started">
                 <div className="container mx-auto py-20">
-                    <div className="text-3xl text-center font-semibold pb-20">
-                        Get Started in a single click
+                    <div className="text-center pb-20">
+                        <div className='text-3xl font-semibold'>Ready to get started?</div>
+                        <div className='text-gray-500'>Sign in with a single click</div>
                     </div>
-                    <div className="flex pb-8">
-                        <div className="flex-1 h-max items-center flex justify-center">
 
-                            <SignInWithGithubBtn />
+                    <div className="pb-8">
+                        <div className="h-max items-center flex justify-center animate__animated animate__bounce animate__infinite">
+                        <SignInWithGithubBtn />
                         </div>
-                        <div className="mx-auto w-[640px] bg-gray-300 h-[360px] rounded-lg animate-pulse"></div>
                     </div>
                 </div>
             </div>
