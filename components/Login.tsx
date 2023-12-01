@@ -70,7 +70,7 @@ const Login = () => {
                 <div className="container mx-auto py-20">
                     <div className="text-center pb-20">
                         <div className='text-3xl font-semibold'>Easily search for PRs</div>
-                        <div className='text-gray-500'>with Github's search query syntax</div>
+                        <div className='text-gray-500'>with Github&apos;s search query syntax</div>
                     </div>
                     <div className="flex pb-8">
                         <div className="flex-1 text-center align-middle h-full">
