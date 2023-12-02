@@ -1,6 +1,7 @@
 import Link from "next/link"
 import SignInWithGithubBtn from "./SignInWithGithubBtn"
-import cardPic from '../images/ss-md.png'
+import ss from '../images/ss.png'
+import cardPic from '../images/cards.png'
 import Image from "next/image"
 import { AnimationOnScroll } from "react-animation-on-scroll"
 import { TypeAnimation } from "react-type-animation"
@@ -39,7 +40,7 @@ const Login = () => {
 
                     <div className="flex items-center justify-center pb-8">
                         {/* <div className="flex justify-center items-center pl-20 flex-1">
-
+1. improve efficiency 2. seamless integration 3. review turnaround time 4. improved code quality 
                             <AnimationOnScroll animateIn="animate__fadeInLeft">
                                 <div className="flex flex-col gap-y-4">
                                     <div>
@@ -62,37 +63,47 @@ const Login = () => {
                                 </div>
                             </AnimationOnScroll>
                         </div> */}
-                            <AnimationOnScroll animateIn="animate__fadeIn">
-                                <div className='rounded-lg border shadow-lg overflow-hidden'>
-                                    <Image src={cardPic} alt="cards" className='object-contain' height={600}/>
-                                </div>
-                            </AnimationOnScroll>
+                        <AnimationOnScroll animateIn="animate__fadeIn">
+                            <div className='rounded-lg border shadow-lg overflow-hidden'>
+                                <Image src={ss} alt="cards" className='object-contain' height={600} />
+                            </div>
+                        </AnimationOnScroll>
                     </div>
                 </div>
             </div>
             <div className="">
                 <div className="container mx-auto py-20">
                     <div className="text-center pb-20">
-                        <div className='text-3xl font-semibold'>Easily search for PRs</div>
-                        <div className='text-gray-500'>with Github&apos;s search query syntax</div>
+                        <div className='text-3xl font-semibold'>Unleash the true potential of your software teams</div>
+                        <div className='text-gray-500'></div>
                     </div>
-                    <div className="flex pb-8">
-                        <div className="flex-1 text-center align-middle h-full">
-                            <TypeAnimation
-                                sequence={[
-                                    'is:open is:pr',
-                                    200,
-                                    'is:open is:pr archived:false',
-                                    200,
-                                    'is:open is:pr archived:false author:@me',
-                                    200,
-                                    'is:open is:pr archived:false review-requested:@me',
-                                    1000
-                                ]}
-                                className='font-mono text-lg'
-                                repeat={Infinity}
-                            />
+                    <div className="flex items-center justify-center pb-8">
+                        <div className="flex justify-center items-center pl-20 flex-1">
+                            <AnimationOnScroll animateIn="animate__fadeInLeft">
+                                <div className="flex flex-col gap-y-6">
+                                    <div>
+                                        <div className="text-2xl font-medium">Improved developer productivity</div>
+                                        <div className="text-gray-500">Reduce context switching and get more done in less time</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-medium">Quicker turnaround time</div>
+                                        <div className="text-gray-500">Spend less time waiting for code to be reviewed</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-medium">Greater visibility</div>
+                                        <div className="text-gray-500">No more searching for pull requests or trying to keep track of who's working on what</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-medium">Enhance code quality</div>
+                                        <div className="text-gray-500">Review comments and make changes quickly</div>
+                                    </div>
+
+                                </div>
+                            </AnimationOnScroll>
                         </div>
+                        <AnimationOnScroll animateIn="animate__fadeInRight">
+                            <Image src={cardPic} alt="cards" className='object-contain' />
+                        </AnimationOnScroll>
                     </div>
                 </div>
             </div>
