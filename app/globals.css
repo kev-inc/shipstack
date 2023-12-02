@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.pulsing-box {
+    border: 4px solid #0000;
+    background: linear-gradient(#ffffff, #ffffff) padding-box, 
+                linear-gradient(var(--angle),#22c55e,#ef4444) border-box;
+    animation: 8s rotate linear infinite;
+}
+
+@keyframes rotate {
+    to {
+        --angle: 360deg;
+    }
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}

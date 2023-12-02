@@ -23,7 +23,7 @@ const Login = () => {
                 </div>
             </div>
             <div className=''>
-                <div className="container mx-auto bg-white rounded-lg shadow flex flex-col p-4 items-center pt-40 pb-40">
+                <div className="pulsing-box container mx-auto rounded-lg shadow flex flex-col p-4 items-center pt-40 pb-40">
                     <div className="text-gray-700 font-medium tracking-wider">Welcome to</div>
                     <div className="text-7xl font-bold tracking-wide">ShipStack</div>
                     <div className="text-gray-700 font-medium tracking-wider pt-8 pb-8">The best Github dashboard that gets your pull requests to shore faster</div>
