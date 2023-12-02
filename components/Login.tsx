@@ -13,7 +13,7 @@ const Login = () => {
                 <div className='font-semibold text-gray-700 w-64'>
                     ShipStack
                 </div>
-                <div className='flex-1 flex justify-end gap-x-8 items-center'>
+                <div className='hidden flex-1 lg:flex justify-end gap-x-8 items-center'>
                     <Link href="#" className='font-medium text-gray-700 hover:underline'>Home</Link>
                     <Link href="#Features" className='font-medium text-gray-700 hover:underline'>Features</Link>
                     <Link href="#Getting Started" className='font-medium text-gray-700 hover:underline'>Getting Started</Link>
@@ -39,30 +39,6 @@ const Login = () => {
                     </div>
 
                     <div className="flex items-center justify-center pb-8">
-                        {/* <div className="flex justify-center items-center pl-20 flex-1">
-1. improve efficiency 2. seamless integration 3. review turnaround time 4. improved code quality 
-                            <AnimationOnScroll animateIn="animate__fadeInLeft">
-                                <div className="flex flex-col gap-y-4">
-                                    <div>
-                                        <div className="text-2xl font-medium">My Pull Requests</div>
-                                        <div className="text-gray-500">All your code reviews at a glance</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-2xl font-medium">Pending Review</div>
-                                        <div className="text-gray-500">Unblock other developers when your review is requested</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-2xl font-medium">Approved</div>
-                                        <div className="text-gray-500">Ship your code the moment they are approved</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-2xl font-medium">Changes Requested</div>
-                                        <div className="text-gray-500">Review comments and make changes quickly</div>
-                                    </div>
-
-                                </div>
-                            </AnimationOnScroll>
-                        </div> */}
                         <AnimationOnScroll animateIn="animate__fadeIn">
                             <div className='rounded-lg border shadow-lg overflow-hidden'>
                                 <Image src={ss} alt="cards" className='object-contain' height={600} />
@@ -101,9 +77,11 @@ const Login = () => {
                                 </div>
                             </AnimationOnScroll>
                         </div>
-                        <AnimationOnScroll animateIn="animate__fadeInRight">
-                            <Image src={cardPic} alt="cards" className='object-contain' />
-                        </AnimationOnScroll>
+                        <div className='hidden lg:flex'>
+                            <AnimationOnScroll animateIn="animate__fadeInRight">
+                                <Image src={cardPic} alt="cards" className='object-contain' />
+                            </AnimationOnScroll>
+                        </div>
                     </div>
                 </div>
             </div>
