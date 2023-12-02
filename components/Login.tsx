@@ -91,7 +91,7 @@ const Login = () => {
                                     </div>
                                     <div>
                                         <div className="text-2xl font-medium">Greater visibility</div>
-                                        <div className="text-gray-500">No more searching for pull requests or trying to keep track of who's working on what</div>
+                                        <div className="text-gray-500">No more searching for pull requests or trying to keep track of who&lsquo;s working on what</div>
                                     </div>
                                     <div>
                                         <div className="text-2xl font-medium">Enhance code quality</div>
